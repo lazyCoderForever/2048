@@ -2,4 +2,4 @@ export const CONSTS = {
     NEGATIVE_LIMIT: -100,
     POSITIVE_LIMIT: 100,
  }
-
+//256 512 1024 2048 4096 8192

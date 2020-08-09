@@ -1,5 +1,6 @@
 import PlayField from './PlayField.js';
 import {CONSTS} from './static_data.js';
+import {compareArr} from './sort.js';
    export default class GameLogic extends PlayField {
         constructor(arrVault){ 
             super(arrVault);
@@ -15,6 +16,7 @@ import {CONSTS} from './static_data.js';
             this.GetMousePosition(e, type);
 
             if (!this.progress){
+              console.log(this.MoveRight(this.arrVault))
                 console.log(this.GetDirection());
             }
 
@@ -47,9 +49,58 @@ import {CONSTS} from './static_data.js';
             }
         }
 
-        MoveSquares(){
-            
+        MoveRight(arr){
+          console.log(arr);
+            let newArr = arr.map((el) => {
+              let tempValue = null;
+              let subArr = el.map((subEl, index) => {
+                if (subEl > 0) {
+                  if (index === 3) {
+                    if (tempValue != null) {
+                      if (tempValue === subEl) {
+                        return subEl * 2;
+                      }
+                      if (tempValue / 2 === subEl) {
+                        return tempValue;
+                      }
+                    }
+                    return subEl;
+                  }
+                  if (tempValue / 2 === subEl) {
+                    let resultValue = tempValue;
+                    tempValue = null;
+                    return resultValue;
+                  }
+                  if (el[index + 1] === 0) {
+                    tempValue = subEl;
+                    return 0;
+                  }
+          
+                  if (el[index + 1] === subEl) {
+                    tempValue = subEl * 2;
+                    return 0;
+                  } else {
+                    return subEl;
+                  }
+                }
+                if (el[index + 1] > 0 && index === 2 && el[index + 1] != tempValue) {
+                  let resultValue = tempValue;
+                  tempValue = null;
+                  return resultValue;
+                }
+                if (index === 3 && tempValue != null) {
+                  return tempValue;
+                } else {
+                  return 0;
+                }
+              });
+              subArr = subArr.sort(compareArr)
+              return subArr;
+            });
+
+            return newArr;
         }
+        
 
         GetMousePosition(e,type){
             this.progress = !this.progress;

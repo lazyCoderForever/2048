@@ -15,12 +15,11 @@
 #playfield{
     position: absolute;
     display: grid;
-    grid-template-columns: repeat(4, 100px);
-    grid-template-rows: repeat( 4, 100px);
+    grid-template-columns: repeat(4, 115px);
+    grid-template-rows: repeat( 4, 115px);
     top: 100px;
     left: 25%;
     max-width: 80%;
-    height: 400px;
     background: white;
     border: 1px solid black;
 }
@@ -28,56 +27,73 @@
     position: relative;
     width: 100px;
     height: 100px;
-    background: gray;
+    margin: 10px;
+    color: black;
+    text-align: center;
+    font: 48px/96px Arial;
+    background: rgba(238, 228, 218, 0.35);
 }
 .thing{
     position: relative;
     width: 100px;
     height: 100px;
+    margin: 10px;
     background: transparent;
     color: black;
     text-align: center;
     font: 48px/96px Arial;
 }
 .thing.t2{
-    background: #18df00;
+    background: #eee4da;
 }
 .thing.t2:after{
     content: '2'
 }
 .thing.t4{
-    background: #5a9900;
+    background: #ede0c8;
 }
 .thing.t4:after{
     content: '4'
 }
 .thing.t8{
-    background: #8c8e00;
+    color: #f9f6f2;
+    background: #f2b179;
 }
 .thing.t8:after{
     content: '8'
 }
 .thing.t16{
-    background: #d38200;
+    color: #f9f6f2;
+    background: #f59563;
 }
 .thing.t16:after{
     content: '16'
 }
 .thing.t32{
-    background: #ae3900;
+    color: #f9f6f2;
+    background: #f67c5f;
 }
 .thing.t32:after{
     content: '32'
 }
 .thing.t64{
-    background: #931269;
+    color: #f9f6f2;
+    background: #f65e3b;
 }
 .thing.t64:after{
     content: '64'
 }
 .thing.t128{
-    background: #0a034c;
+    color: #f9f6f2;
+    background: #edcf72;
 }
 .thing.t128:after{
     content: '128'
+}
+.thing.t256{
+    color: #f9f6f2;
+    background: #edcc61;
+}
+.thing.t256:after{
+    content: '256'
 }
