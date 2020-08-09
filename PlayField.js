@@ -17,9 +17,7 @@
       listNodes.forEach((el) => playfield.appendChild(el));
     }
 
-    movement(event){
-         console.log(event.clientX);
-    }
+
   }
 
 
