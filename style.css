@@ -42,9 +42,11 @@
     color: black;
     text-align: center;
     font: 48px/96px Arial;
+    transition: 0.7s;
 }
 .thing.t2{
     background: #eee4da;
+    transition: 0.7s;
 }
 .thing.t2:after{
     content: '2'

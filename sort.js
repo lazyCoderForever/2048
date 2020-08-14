@@ -1,29 +1,31 @@
 export default class Sort{
 
     sortVertical(arr, direction){
-    let counter ,
-    tempArr ,
-    firstRowArr = arr.slice(0,1),
-    resultArr = [...arr];
+      let counter , tempArr,
+      inputArrayLength = arr.length,
+      firstRowArr = arr.slice(0,1)[0],
+      resultArr = [...arr];
+
       firstRowArr.forEach((el,index)=>{
-         el.forEach((el,subIndx)=>{
           counter = 0;
           tempArr = [];
-            while (counter < arr.length){
-              tempArr.push(arr[index][subIndx]);
+
+            while (counter < inputArrayLength){
+
+              tempArr.push(arr[counter][index]);
               counter ++
-              
           }
+
           direction === 'down' ? 
           tempArr.sort((a,b) => this.sortToRight(a,b)) : 
           tempArr.sort((a,b) => this.sortToLeft(a,b));
           
-          tempArr.forEach((el, indexT) => {
-            resultArr[indexT][subIndx] = el
+          tempArr.forEach((sortEl, indexT) => {
+            resultArr[indexT][index] = sortEl
           })
-        })
+
   
-      })
+      });
       return resultArr
   
   }

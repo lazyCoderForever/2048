@@ -18,35 +18,41 @@ export default class GameLogic extends PlayField {
   Gameplay(e, type) {
 
     this.GetMousePosition(e, type);
-    if (this.conditionOfLose){
-    if (!this.progress) {
-      this.direction = this.GetDirection();
 
-      switch (this.direction) {
-        case "right":
-        this.arrVault =  this.HorizontalMove(this.arrVault, "right")
-        this.arrVault = this.AddField();
-          break;
-        case "left":
-          this.arrVault =  this.HorizontalMove(this.arrVault, "left")
-          this.arrVault = this.AddField();
-          break;
-        case "up":
-          this.arrVault =  this.VerticalMove(this.arrVault, "up")
-          this.arrVault = this.AddField();
-          break;
-        case "down":
-          this.arrVault =  this.VerticalMove(this.arrVault, "down")
-          this.arrVault = this.AddField();
-          break;
-        default: alert('Повторите действие еще раз')
-          break;
-      }
+  //   if (this.conditionOfLose = this.CalculateCondition()){
+   if (!this.progress) {
+    super.UpdatePlayField();
+  //     this.direction = this.GetDirection();
+
+  //     switch (this.direction) {
+  //       case "right":
+  //       this.arrVault =  this.HorizontalMove(this.arrVault, "right")
+  //       this.arrVault = this.AddField();
+  //         break;
+  //       case "left":
+  //         this.arrVault =  this.HorizontalMove(this.arrVault, "left")
+  //         this.arrVault = this.AddField();
+  //         break;
+  //       case "up":
+  //         this.arrVault =  this.VerticalMove(this.arrVault, "up")
+  //         this.arrVault = this.AddField();
+          
+  //         break;
+  //       case "down":
+  //         this.arrVault =  this.VerticalMove(this.arrVault, "down")
+  //         this.arrVault = this.AddField();
+  //         console.log(12);
+  //         break;
+  //       default: alert('Повторите действие еще раз')
+  //         break;
+  //     }
       
-      console.log(this.arrVault);
-    }
-  } else {
-    alert("Game over");
+  //     console.log(this.arrVault);
+  //   }
+  // } else {
+  //   alert("Game over");
+  //   this.arrVault  = CONSTS.DEFAULT_PLAYFIELD
+  //   return
   }
   }
 
@@ -80,60 +86,83 @@ export default class GameLogic extends PlayField {
     return newArr;
   }
 
-  VerticalMove(arr, direction) {
-    let sort = new Sort(),
-      arrForCaclValue = [null,null,null,null],
-      copyArr = [...arr];
 
-    if (direction === "down") {
-      copyArr.reverse();
-    }
-
-    let newArr = copyArr.map((el, mainIndex) => {
-      let lengthMainArr = copyArr.length;
-      let subArr = el.map((subEl, index) => {
-        let checkNextelement = true
-
-        if (index !== lengthMainArr - 1){
-          while (checkNextelement){
-            if (copyArr[mainIndex + 1][index] > 0){
-              if (copyArr[mainIndex + 1][index] === subEl){
-                arrForCaclValue[index] = 0;
-                return subEl * 2;
+  
+  VerticalMove(arr, direction){
+    let copyInputArr = direction === 'down' ? [...arr.reverse()] : [...arr],
+    lengthInputArr = arr.length,
+    vaultTempValu = [null,null,null,null],
+    sort = new Sort();
+  
+    let newArr = copyInputArr.map((el, mainIndex)=>{
+      let subArr = el.map((subEl,subIndex) => {
+        let counter = 1;
+        let condition = true;
+  
+          if (subEl > 0){
+            //Провекрка значения во временном хранилище на !== null
+            if (vaultTempValu[subIndex] !== null) {
+              const getTempValue = vaultTempValu[subIndex]
+              vaultTempValu[subIndex] = null
+              condition = false
+  
+              return getTempValue;
+            }                
+            //Проверка на последний элемент в главном массиве  arr
+            if (mainIndex === lengthInputArr - 1){
+              if (vaultTempValu[subIndex] !== null) {
+                condition = false
+                return vaultTempValu[subIndex];
               } else {
+                condition = false
                 return subEl;
               }
-            } 
-  
+            }
+            //Обход элементов ниже, пока-что не будет найдено число === или !== subEl. Или на конец массива
+            while (mainIndex + counter < lengthInputArr && condition) {
+              if (copyInputArr[mainIndex + counter][subIndex] > 0){
+                if (copyInputArr[mainIndex + counter][subIndex] === subEl){
+                  vaultTempValu[subIndex] = 0
+                  condition = false
+                  return subEl * 2;
+                } else {
+                  condition = false;
+                  return subEl;
+                }
+              } else if(mainIndex + counter === lengthInputArr - 1){
+                return subEl;
+              }
+              else {
+                counter++;
+              }}
+          } else {
+            return 0;
           }
-        }
-
-
-      });
+      })
       return subArr;
-    });
-
+    })
+    
     if (direction === "down") {
-      newArr.reverse();
-      const sortedArr = sort.sortVertical(newArr, "down");
+      newArr.reverse()
+      const sortedArr = sort.sortVertical(newArr, "down")
       return sortedArr;
     } else {
-      const sortedArr = sort.sortVertical(newArr, "up");
+      const sortedArr = sort.sortVertical(newArr, "up")
       return sortedArr;
     }
-    
   }
 
   HorizontalMove(arr, direction) {
     let sort = new Sort();
-    let newArr = arr.map((el) => {
+    let newArr = arr.map((el, mainIndex) => {
       let tempValue = null;
       if (direction === "left") {
         el.reverse();
       }
-      let subArr = el.map((subEl, index) => {
+      let subArr = el.map((subEl, subIndex) => {
+        //Если элемент > 0
         if (subEl > 0) {
-          if (index === 3) {
+          if (subIndex === el.length-1) {
             if (tempValue != null) {
               if (tempValue === subEl) {
                 return subEl * 2;
@@ -144,34 +173,38 @@ export default class GameLogic extends PlayField {
             }
             return subEl;
           }
-          if (tempValue / 2 === subEl) {
-            let resultValue = tempValue;
+          if (tempValue  === subEl) {
+            let resultValue = subEl * 2;
             tempValue = null;
             return resultValue;
           }
-          if (el[index + 1] === 0) {
-            tempValue = subEl;
+          if (el[subIndex + 1] === 0) {
+            tempValue = subEl ;
             return 0;
           }
 
-          if (el[index + 1] === subEl) {
-            tempValue = subEl * 2;
+          if (el[subIndex + 1] === subEl) {
+            tempValue = subEl ;
             return 0;
           } else {
             return subEl;
           }
         }
-        if (el[index + 1] > 0 && index === 2 && el[index + 1] != tempValue) {
-          let resultValue = tempValue === null ? 0 : subEl;
-          tempValue = null;
-          return resultValue;
+        //Если 0 стоит в конце
+        if (subIndex === el.length-1 ){
+          return tempValue === null ? subEl : tempValue;
         }
-        if (index === 3 && tempValue != null) {
-          return tempValue;
-        } else {
-          return 0;
+        //Если
+        if (el[subIndex + 1] > 0 ){
+          if (el[subIndex + 1] === tempValue ){
+            return 0
+          }else {
+            return tempValue === null ? subEl : tempValue;
+          }
+        } 
+        else {
+          return 0
         }
-
       });
 
       if (direction === "left") {
@@ -231,9 +264,11 @@ export default class GameLogic extends PlayField {
   CalculateCondition(){
     let localCondition = false;
     this.arrVault.forEach(el =>{
-      el.forEach(subEl => {
-        subEl === 0 ? localCondition = true : localCondition = false;
-      })
+      if(!localCondition){
+        el.forEach(subEl => {
+          subEl === 0 ? localCondition = true : localCondition = false;
+        })
+      } 
     })
     return localCondition
   }
