@@ -1,6 +1,6 @@
 import PlayField from "./PlayField.js";
 import { CONSTS } from "./static_data.js";
-import Sort from "./Sort.js";
+import Sort from "./sort.js";
 
 export default class GameLogic extends PlayField {
   constructor(arrVault, score) {
@@ -315,7 +315,15 @@ export default class GameLogic extends PlayField {
   }
 
   CalculateConditionOfWin() {
-    if (this.score >= 2048) {
+    let win = false;
+    this.arrVault.forEach((subArr)=>{
+      if(!win){
+        subArr.forEach(subEl=>{
+        if (subEl === 2048){
+          win = true;
+        }})      
+    }})
+    if (win){
       let score = document.querySelector("#score");
       score.innerText = `${this.score}`;
       super.UpdatePlayField("left");
@@ -325,9 +333,7 @@ export default class GameLogic extends PlayField {
         this.score = 0;
         super.UpdatePlayField("left");
       }, 500);
-
-      return true;
     }
-    return false;
-  }
+    return win
+}
 }

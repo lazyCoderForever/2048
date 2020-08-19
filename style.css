@@ -117,3 +117,24 @@
 .thing.t256:after{
     content: '256'
 }
+.thing.t512{
+    color: #f9f6f2;
+    background: #edcc61;
+}
+.thing.t512:after{
+    content: '512'
+}
+.thing.t1024{
+    color: #f9f6f2;
+    background: #edcc61;
+}
+.thing.t1024:after{
+    content: '1024'
+}
+.thing.t2048{
+    color: #f9f6f2;
+    background: #edcc61;
+}
+.thing.t2048:after{
+    content: '2048'
+}

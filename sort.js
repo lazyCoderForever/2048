@@ -29,7 +29,7 @@ export default class Sort{
       return resultArr
   
   }
-
+ 
  sortToRight(a, b){
     if (a===0 && b===0){
       return 0
