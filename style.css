@@ -11,15 +11,33 @@
     -khtml-user-drag: none;
     -ms-user-drag: none;
     user-drag: none;
+    
+}
+
+:root {
+    --x: 0px;
+    --y: 0px;
+}
+  
+@keyframes move {
+    from {transform: translate(var(--x), var(--y));}
+    to {transform: translate(0, 0)}
+}
+
+
+#score{
+    text-align: center;
+    font: 48px/96px Arial;
 }
 #playfield{
-    position: absolute;
     display: grid;
-    grid-template-columns: repeat(4, 115px);
-    grid-template-rows: repeat( 4, 115px);
-    top: 100px;
-    left: 25%;
-    max-width: 80%;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: repeat( 4, 100px);
+    justify-content: center;
+    padding: 10px;
+    margin: 0 auto;
+    grid-gap: 10px;
+    max-width: 426px;
     background: white;
     border: 1px solid black;
 }
@@ -27,29 +45,29 @@
     position: relative;
     width: 100px;
     height: 100px;
-    margin: 10px;
     color: black;
     text-align: center;
     font: 48px/96px Arial;
     background: rgba(238, 228, 218, 0.35);
 }
 .thing{
+    animation: move 0.6s ease-in-out;
     position: relative;
     width: 100px;
     height: 100px;
-    margin: 10px;
     background: transparent;
     color: black;
     text-align: center;
     font: 48px/96px Arial;
-    transition: 0.7s;
+    transition: 0.3s;
 }
 .thing.t2{
     background: #eee4da;
-    transition: 0.7s;
+    transition: 0.3s; 
 }
 .thing.t2:after{
-    content: '2'
+    content: '2';
+    animation: move 4s ;
 }
 .thing.t4{
     background: #ede0c8;
